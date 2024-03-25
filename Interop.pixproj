@@ -7,6 +7,14 @@
       <IsMain>true</IsMain>
       <Path>main.pix</Path>
     </ProjectFileItem>
+    <ProjectFileItem z:Id="i3">
+      <IsMain>false</IsMain>
+      <Path>Task1.pix</Path>
+    </ProjectFileItem>
+    <ProjectFileItem z:Id="i4">
+      <IsMain>false</IsMain>
+      <Path>Dependencies\Activities.Bugakov.dll</Path>
+    </ProjectFileItem>
   </Files>
   <MasterUploadId i:nil="true" />
   <Name>Interop</Name>
