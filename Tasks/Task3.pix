@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Script xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://schemas.datacontract.org/2004/07/BR.Logic">
+  <CompilationType>CSharp</CompilationType>
+  <Description>Новый скрипт без наполнения.</Description>
+  <Id>fef22928-6ac5-4a49-a912-339f75a95f2a</Id>
+  <Logic z:Id="i2" i:type="ExecutedStep">
+    <Childs>
+      <AbstractStep z:Id="i3" i:type="ExecutedStep">
+        <Childs />
+        <Id>f74ba89a-f167-40bf-a9f9-ec31f5cd586c</Id>
+        <Parent z:Ref="i2" />
+        <PropertyValues>
+          <PropertyValue z:Id="i4">
+            <PropertyName>Value</PropertyName>
+            <_dataType>Expression</_dataType>
+            <_expression>new List&lt;string&gt;()</_expression>
+            <_value i:nil="true" />
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+          <PropertyValue z:Id="i5">
+            <PropertyName>To</PropertyName>
+            <_dataType>Expression</_dataType>
+            <_expression>list_allRange</_expression>
+            <_value i:nil="true" />
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+        </PropertyValues>
+        <SelectedOptionId i:nil="true" />
+        <EnableStatus>true</EnableStatus>
+        <ExceptionHandlingMode>Default</ExceptionHandlingMode>
+        <RetryCount>-1</RetryCount>
+        <Text></Text>
+        <_activityFullName>BR.Core.Base.Assign</_activityFullName>
+      </AbstractStep>
+      <AbstractStep z:Id="i6" i:type="ExecutedStep">
+        <Childs />
+        <Id>14d4ff19-a29d-4440-aee6-c092f92ad897</Id>
+        <Parent z:Ref="i2" />
+        <PropertyValues>
+          <PropertyValue z:Id="i7">
+            <PropertyName>CSCode</PropertyName>
+            <_dataType>Value</_dataType>
+            <_expression i:nil="true" />
+            <_value xmlns:d7p1="http://www.w3.org/2001/XMLSchema" i:type="d7p1:string">// Создаем новый экземпляр приложения Word
+
+Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
+// Открываем документ
+Microsoft.Office.Interop.Word.Document doc = wordApp.Documents.Open(in_str_pathToWord);
+// Получаем текст из документа
+string textWord = doc.Content.Text;
+// Получаем текущий абзац
+Microsoft.Office.Interop.Word.Paragraph paragraph = doc.Paragraphs[doc.Paragraphs.Count];
+DataTable dt_tableExcel = new DataTable();
+
+
+Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+// Открываем файл Excel
+Microsoft.Office.Interop.Excel.Workbook workbook = excelApp.Workbooks.Open(in_str_pathToExcel);
+// Получаем лист по имени
+Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[in_str_listName];
+// Получаем диапазон ячеек для поиска
+Microsoft.Office.Interop.Excel.Range searchRange = worksheet.UsedRange;
+Microsoft.Office.Interop.Excel.Range cellFirst = null;
+DataTable currentTable = new DataTable();
+int indexJ = 0;
+
+//поиск первой ячейки таблици 
+foreach (Microsoft.Office.Interop.Excel.Range cell in searchRange)
+{
+    if (cell.Value2 != null &amp;&amp; (cell.Value2.ToString().Contains(in_str_targetHeadName)))
+    {
+        // Ячейка найдена
+        cellFirst = cell;
+        break;
+    }
+}
+// послденяя ячейка
+Microsoft.Office.Interop.Excel.Range cellLast =  worksheet.Cells.SpecialCells(Microsoft.Office.Interop.Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+String cellLastLetter = System.Text.RegularExpressions.Regex.Match(cellLast.Address.ToString(),@"[a-zA-Z]+").ToString();
+String cellFirstLetter = System.Text.RegularExpressions.Regex.Match(cellFirst.Address.ToString(),@"[a-zA-Z]+").ToString();
+// область таблици (значений)
+Microsoft.Office.Interop.Excel.Range rangeTable = worksheet.Range[$"{cellFirstLetter}{cellFirst.Row+1}",cellLast.Address];
+// область заголовка (значений)
+Microsoft.Office.Interop.Excel.Range rangeHead = worksheet.Range[cellFirst.Address,$"{cellLastLetter}{cellFirst.Row}"];
+// создание колонок
+foreach(Microsoft.Office.Interop.Excel.Range cell in rangeHead.Cells)
+{
+    dt_tableExcel.Columns.Add(cell.Value.ToString());
+}        
+// заполнение таблицы данными
+foreach (Microsoft.Office.Interop.Excel.Range row in rangeTable.Rows)
+{
+DataRow dr = dt_tableExcel.NewRow();
+    foreach(Microsoft.Office.Interop.Excel.Range cell in row.Cells)
+    {
+    dr[indexJ] = cell.Value.ToString();
+    indexJ++;
+    }
+    dt_tableExcel.Rows.Add(dr);
+    indexJ = 0;
+}
+
+//работа с word 
+string[] lines = textWord.Split('\r');
+List&lt;string&gt; lineList = new List&lt;string&gt;(lines);
+// Для каждого найденого имени
+foreach(String name in lineList)
+{
+    currentTable = dt_tableExcel.AsEnumerable().Where(row1=&gt; row1.ItemArray.Contains(name)).Select(row2 =&gt; row2).AsDataView().ToTable();
+    if(currentTable.Rows.Count &gt; 0 &amp;&amp; name !="")
+    {
+        // Переходим к нужному месту в документе
+        Microsoft.Office.Interop.Word.Range range = paragraph.Range;
+        textWord = doc.Content.Text;
+        //поиск позиции имени в документе
+        int index = textWord.IndexOf(name);
+        range.Start = index + name.Length;
+        range.End = index + name.Length;
+        // заполнение таблици
+        Microsoft.Office.Interop.Word.Table table = doc.Tables.Add(range,currentTable.Columns.Count,currentTable.Rows.Count+1, true);
+        // цикл для заполнения таблици
+        for(int i = 0 ; i &lt; (currentTable.Columns.Count); i++)
+        {
+            table.Cell(i+1,1).Range.Text = currentTable.Columns[i].ColumnName.ToString();
+            table.Cell(i+1,2).Range.Text = currentTable.Rows[0][i].ToString();
+        }
+    }
+}
+workbook.Save();
+// Закрываем документ
+workbook.Close();
+
+// Закрываем приложение Excel
+excelApp.Quit();
+// Закрываем документ
+doc.Close();
+
+// Закрываем приложение Word
+wordApp.Quit();</_value>
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+          <PropertyValue z:Id="i8">
+            <PropertyName>Timeout</PropertyName>
+            <_dataType>Value</_dataType>
+            <_expression i:nil="true" />
+            <_value xmlns:d7p1="http://www.w3.org/2001/XMLSchema" i:type="d7p1:int">0</_value>
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+        </PropertyValues>
+        <SelectedOptionId i:nil="true" />
+        <EnableStatus>true</EnableStatus>
+        <ExceptionHandlingMode>Default</ExceptionHandlingMode>
+        <RetryCount>-1</RetryCount>
+        <Text></Text>
+        <_activityFullName>BR.Core.Base.ExecuteCSCode</_activityFullName>
+      </AbstractStep>
+    </Childs>
+    <Id>73db6fa1-c834-4f51-80eb-d1f5fe26c53e</Id>
+    <Parent i:nil="true" />
+    <PropertyValues />
+    <SelectedOptionId i:nil="true" />
+    <EnableStatus>true</EnableStatus>
+    <ExceptionHandlingMode>Default</ExceptionHandlingMode>
+    <RetryCount>-1</RetryCount>
+    <Text></Text>
+    <_activityFullName>BR.Core.Base.Container</_activityFullName>
+  </Logic>
+  <Name>Task3.pix</Name>
+  <Namespaces xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <Params>
+    <Parameter z:Id="i9">
+      <DefaultValueExpression>Path.Combine(Directory.GetCurrentDirectory(),"IN","Task1.xlsx")</DefaultValueExpression>
+      <Description></Description>
+      <Name>in_str_pathToExcel</Name>
+      <TypeString>System.String</TypeString>
+    </Parameter>
+    <Parameter z:Id="i10">
+      <DefaultValueExpression>"Лист1"</DefaultValueExpression>
+      <Description></Description>
+      <Name>in_str_listName</Name>
+      <TypeString>System.String</TypeString>
+    </Parameter>
+    <Parameter z:Id="i11">
+      <DefaultValueExpression>"Имя"</DefaultValueExpression>
+      <Description></Description>
+      <Name>in_str_targetHeadName</Name>
+      <TypeString>System.String</TypeString>
+    </Parameter>
+    <Parameter z:Id="i12">
+      <DefaultValueExpression>Path.Combine(Directory.GetCurrentDirectory(),"IN","Task.docx")</DefaultValueExpression>
+      <Description></Description>
+      <Name>in_str_pathToWord</Name>
+      <TypeString>System.String</TypeString>
+    </Parameter>
+  </Params>
+  <TemplateVersion xmlns:d2p1="http://schemas.datacontract.org/2004/07/System" i:nil="true" />
+  <Variables xmlns:d2p1="http://schemas.datacontract.org/2004/07/BR.Logic.Params" />
+  <Version i:nil="true" />
+</Script>

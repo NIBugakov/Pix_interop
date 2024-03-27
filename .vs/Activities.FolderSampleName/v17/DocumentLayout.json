@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{01CC29FB-4D2C-49DC-8075-850353A61B55}|Activities.FolderSampleName\\Activities.FolderSampleName.csproj|c:\\users\\nibugakov\\documents\\github\\interop\\activities.foldersamplename\\sampleactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{01CC29FB-4D2C-49DC-8075-850353A61B55}|Activities.FolderSampleName\\Activities.FolderSampleName.csproj|solutionrelative:activities.foldersamplename\\sampleactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{01CC29FB-4D2C-49DC-8075-850353A61B55}|Activities.FolderSampleName\\Activities.FolderSampleName.csproj|c:\\users\\nibugakov\\documents\\github\\interop\\activities.foldersamplename\\activities.foldersamplename.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{01CC29FB-4D2C-49DC-8075-850353A61B55}|Activities.FolderSampleName\\Activities.FolderSampleName.csproj|solutionrelative:activities.foldersamplename\\activities.foldersamplename.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Activities.FolderSampleName",
+              "DocumentMoniker": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\Activities.FolderSampleName\\Activities.FolderSampleName.csproj",
+              "RelativeDocumentMoniker": "Activities.FolderSampleName\\Activities.FolderSampleName.csproj",
+              "ToolTip": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\Activities.FolderSampleName\\Activities.FolderSampleName.csproj",
+              "RelativeToolTip": "Activities.FolderSampleName\\Activities.FolderSampleName.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAC4AAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-03-27T14:15:49.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SampleActivity.cs",
+              "DocumentMoniker": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\Activities.FolderSampleName\\SampleActivity.cs",
+              "RelativeDocumentMoniker": "Activities.FolderSampleName\\SampleActivity.cs",
+              "ToolTip": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\Activities.FolderSampleName\\SampleActivity.cs",
+              "RelativeToolTip": "Activities.FolderSampleName\\SampleActivity.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIAAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-27T14:15:33.601Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

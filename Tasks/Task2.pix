@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Script xmlns:i="http://www.w3.org/2001/XMLSchema-instance" z:Id="i1" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/" xmlns="http://schemas.datacontract.org/2004/07/BR.Logic">
+  <CompilationType>CSharp</CompilationType>
+  <Description>Новый скрипт без наполнения.</Description>
+  <Id>556a663e-9ad0-4bff-9010-dca31722b269</Id>
+  <Logic z:Id="i2" i:type="ExecutedStep">
+    <Childs>
+      <AbstractStep z:Id="i3" i:type="ExecutedStep">
+        <Childs />
+        <Id>7d6fc713-3875-4a1c-89d7-df788db1193d</Id>
+        <Parent z:Ref="i2" />
+        <PropertyValues>
+          <PropertyValue z:Id="i4">
+            <PropertyName>Value</PropertyName>
+            <_dataType>Expression</_dataType>
+            <_expression>"Имя"</_expression>
+            <_value i:nil="true" />
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+          <PropertyValue z:Id="i5">
+            <PropertyName>To</PropertyName>
+            <_dataType>Expression</_dataType>
+            <_expression>str_targetHeadName</_expression>
+            <_value i:nil="true" />
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+        </PropertyValues>
+        <SelectedOptionId i:nil="true" />
+        <EnableStatus>true</EnableStatus>
+        <ExceptionHandlingMode>Default</ExceptionHandlingMode>
+        <RetryCount>-1</RetryCount>
+        <Text></Text>
+        <_activityFullName>BR.Core.Base.Assign</_activityFullName>
+      </AbstractStep>
+      <AbstractStep z:Id="i6" i:type="ExecutedStep">
+        <Childs />
+        <Id>e2ab63b9-824e-440f-be76-bd43b77aef29</Id>
+        <Parent z:Ref="i2" />
+        <PropertyValues>
+          <PropertyValue z:Id="i7">
+            <PropertyName>CSCode</PropertyName>
+            <_dataType>Value</_dataType>
+            <_expression i:nil="true" />
+            <_value xmlns:d7p1="http://www.w3.org/2001/XMLSchema" i:type="d7p1:string">// Инициализация счетчика 
+int shiftСounter = 0;
+// Создаем новый экземпляр приложения Excel
+Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+// Открываем файл Excel
+Microsoft.Office.Interop.Excel.Workbook workbook = excelApp.Workbooks.Open(in_str_pathToExcel);
+// Получаем лист по имени
+Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[in_str_listName];
+// Получаем диапазон ячеек для поиска
+Microsoft.Office.Interop.Excel.Range rangeToSearch = null;
+Microsoft.Office.Interop.Excel.Range cellFirst = null;
+// создание копии листа
+Microsoft.Office.Interop.Excel.Worksheet sheetToCopy = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[in_str_listName];
+// копирование предыдущего листа в новый
+sheetToCopy.Copy(Before: worksheet);
+// изменение имени листа
+sheetToCopy.Name = in_newListName;
+//автоширина
+sheetToCopy.Columns.AutoFit();
+Microsoft.Office.Interop.Excel.Range searchRange = worksheet.UsedRange;
+foreach (Microsoft.Office.Interop.Excel.Range cell in searchRange)
+{
+    if (cell.Value2 != null &amp;&amp; (cell.Value2.ToString().Contains(str_targetHeadName)))
+    {
+        // Ячейка найдена
+        cellFirst = cell;
+        break;
+    }
+}
+// создание области таблицы
+Microsoft.Office.Interop.Excel.Range cellLast =  worksheet.Cells.SpecialCells(Microsoft.Office.Interop.Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+String str_rangeTable = $"{cellFirst.Address.ToString().Replace("$","")}:{cellLast.Address.ToString().Replace("$","")}";
+Microsoft.Office.Interop.Excel.Range rangeTable = worksheet.get_Range(str_rangeTable,Type.Missing);
+rangeTable.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+rangeTable.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
+rangeTable.Borders.ColorIndex = Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic;
+// Зальём шапку таблицы любым цветом и выбирем полужирный шрифт
+Microsoft.Office.Interop.Excel.Range xlRangeHeader = sheetToCopy.get_Range(cellFirst.Address.ToString().Replace("$",""), $"{System.Text.RegularExpressions.Regex.Match(cellLast.Address.ToString(),@"[a-zA-Z]+")}{System.Text.RegularExpressions.Regex.Match(cellFirst.Address.ToString(),@"\d+").Value}");
+xlRangeHeader.Interior.ColorIndex = 3; //red
+xlRangeHeader.Interior.PatternColorIndex = Microsoft.Office.Interop.Excel.Constants.xlAutomatic;
+xlRangeHeader.Font.Bold = true;
+//Для строк над таблицей задать объединение ячеек и центрирование по вертикали и по горизонтали, если строка содержит текст, иначе удалить строку. 
+Microsoft.Office.Interop.Excel.Range cellStartExcel = (Microsoft.Office.Interop.Excel.Range)worksheet.Cells[1,1];
+Microsoft.Office.Interop.Excel.Range xlUnderHead = sheetToCopy.get_Range(cellStartExcel.Address.ToString().Replace("$",""), $"{System.Text.RegularExpressions.Regex.Match(cellLast.Address.ToString(),@"[a-zA-Z]+")}{Convert.ToInt32(System.Text.RegularExpressions.Regex.Match(cellFirst.Address.ToString(),@"\d+").Value)+1}");
+foreach (Microsoft.Office.Interop.Excel.Range row in xlUnderHead.Rows)
+{
+    // создание переменной учитывающая смещение после удаления строк
+    Microsoft.Office.Interop.Excel.Range rowWithShift = row;
+    int currentRowIndex = Convert.ToInt32(System.Text.RegularExpressions.Regex.Match(rowWithShift.Address.ToString(),@"(\d)").Groups[1].Value);
+    rowWithShift = sheetToCopy.get_Range(rowWithShift.Address.Replace(currentRowIndex.ToString(),(currentRowIndex-shiftСounter).ToString()));
+    // Проверяем, содержит ли строка текст
+    if (rowWithShift.Cells.Find(" * ", Type.Missing, Microsoft.Office.Interop.Excel.XlFindLookIn.xlValues, Microsoft.Office.Interop.Excel.XlLookAt.xlPart, Microsoft.Office.Interop.Excel.XlSearchOrder.xlByRows) != null)
+    {
+        // Объединияем ячейки в строке
+        rowWithShift.Merge(Type.Missing);
+
+        // Центрируем текст в строке
+        rowWithShift.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+        rowWithShift.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+    }
+    else
+    {
+        // Удалияем строку, если она пуста
+        rowWithShift.Delete(Microsoft.Office.Interop.Excel.XlDeleteShiftDirection.xlShiftUp);
+        shiftСounter = shiftСounter + 1;
+    }
+}
+//Под последней колонкой поместить функцию суммирования и выделить ее жирным шрифтом.
+Microsoft.Office.Interop.Excel.Range lastCell = sheetToCopy.Cells.SpecialCells(Microsoft.Office.Interop.Excel.XlCellType.xlCellTypeLastCell);
+lastCell = (Microsoft.Office.Interop.Excel.Range)sheetToCopy.Cells[(lastCell.Row-shiftСounter + 1),(lastCell.Column)];
+//формула суммирования в последней ячейке
+String cellLetter = System.Text.RegularExpressions.Regex.Match(lastCell.Address.ToString(),@"[a-zA-Z]+").ToString();
+lastCell.Formula = $"=СУММ({cellLetter}1:{cellLetter}{lastCell.Row-1}";
+//Выделение ячейки жирным шрифтом
+lastCell.Font.Bold = true;
+Microsoft.Office.Interop.Excel.Range cellBeforeAmount = (Microsoft.Office.Interop.Excel.Range)sheetToCopy.Cells[(lastCell.Row),(lastCell.Column-1)];
+Microsoft.Office.Interop.Excel.Range range = sheetToCopy.get_Range( $"A{lastCell.Row}:{cellBeforeAmount.Address.ToString().Replace("$","")}", Type.Missing);
+range.Merge(Type.Missing);
+range.Value2 = "ИТОГО";
+range.Font.Bold = true;
+
+
+//завершение сесси:
+//сохранение изменений 
+workbook.Save();
+// Закрываем файл Excel
+workbook.Close();
+// Закрываем приложение Excel
+excelApp.Quit();</_value>
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+          <PropertyValue z:Id="i8">
+            <PropertyName>Timeout</PropertyName>
+            <_dataType>Value</_dataType>
+            <_expression i:nil="true" />
+            <_value xmlns:d7p1="http://www.w3.org/2001/XMLSchema" i:type="d7p1:int">0</_value>
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+        </PropertyValues>
+        <SelectedOptionId i:nil="true" />
+        <EnableStatus>true</EnableStatus>
+        <ExceptionHandlingMode>Default</ExceptionHandlingMode>
+        <RetryCount>-1</RetryCount>
+        <Text></Text>
+        <_activityFullName>BR.Core.Base.ExecuteCSCode</_activityFullName>
+      </AbstractStep>
+      <AbstractStep z:Id="i9" i:type="ExecutedStep">
+        <Childs />
+        <Id>246e37b0-aa3f-420c-bb64-6d07c72610b4</Id>
+        <Parent z:Ref="i2" />
+        <PropertyValues>
+          <PropertyValue z:Id="i10">
+            <PropertyName>Value</PropertyName>
+            <_dataType>Value</_dataType>
+            <_expression></_expression>
+            <_value i:nil="true" />
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+          <PropertyValue z:Id="i11">
+            <PropertyName>To</PropertyName>
+            <_dataType>Expression</_dataType>
+            <_expression></_expression>
+            <_value i:nil="true" />
+            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
+          </PropertyValue>
+        </PropertyValues>
+        <SelectedOptionId i:nil="true" />
+        <EnableStatus>true</EnableStatus>
+        <ExceptionHandlingMode>Default</ExceptionHandlingMode>
+        <RetryCount>-1</RetryCount>
+        <Text></Text>
+        <_activityFullName>BR.Core.Base.Assign</_activityFullName>
+      </AbstractStep>
+    </Childs>
+    <Id>f8f33b19-eec7-4755-89a8-06fd9fe7cb3f</Id>
+    <Parent i:nil="true" />
+    <PropertyValues />
+    <SelectedOptionId i:nil="true" />
+    <EnableStatus>true</EnableStatus>
+    <ExceptionHandlingMode>Default</ExceptionHandlingMode>
+    <RetryCount>-1</RetryCount>
+    <Text></Text>
+    <_activityFullName>BR.Core.Base.Container</_activityFullName>
+  </Logic>
+  <Name>Task2.pix</Name>
+  <Namespaces xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <Params>
+    <Parameter z:Id="i12">
+      <DefaultValueExpression></DefaultValueExpression>
+      <Description></Description>
+      <Name>in_str_pathToExcel</Name>
+      <TypeString>System.String</TypeString>
+    </Parameter>
+    <Parameter z:Id="i13">
+      <DefaultValueExpression></DefaultValueExpression>
+      <Description></Description>
+      <Name>in_str_listName</Name>
+      <TypeString>System.String</TypeString>
+    </Parameter>
+    <Parameter z:Id="i14">
+      <DefaultValueExpression></DefaultValueExpression>
+      <Description></Description>
+      <Name>in_str_targetHeadName</Name>
+      <TypeString>System.String</TypeString>
+    </Parameter>
+    <Parameter z:Id="i15">
+      <DefaultValueExpression></DefaultValueExpression>
+      <Description></Description>
+      <Name>in_newListName</Name>
+      <TypeString>System.String</TypeString>
+    </Parameter>
+  </Params>
+  <TemplateVersion xmlns:d2p1="http://schemas.datacontract.org/2004/07/System" i:nil="true" />
+  <Variables xmlns:d2p1="http://schemas.datacontract.org/2004/07/BR.Logic.Params" />
+  <Version i:nil="true" />
+</Script>

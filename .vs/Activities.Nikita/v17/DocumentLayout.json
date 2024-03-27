@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4993F4DC-7997-42F6-B6E6-6FEB3E149BDB}|Activities.Nikita\\Activities.Nikita.csproj|c:\\users\\nibugakov\\documents\\github\\interop\\activities.nikita\\tableformatting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4993F4DC-7997-42F6-B6E6-6FEB3E149BDB}|Activities.Nikita\\Activities.Nikita.csproj|solutionrelative:activities.nikita\\tableformatting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4993F4DC-7997-42F6-B6E6-6FEB3E149BDB}|Activities.Nikita\\Activities.Nikita.csproj|c:\\users\\nibugakov\\documents\\github\\interop\\activities.nikita\\activities.nikita.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{4993F4DC-7997-42F6-B6E6-6FEB3E149BDB}|Activities.Nikita\\Activities.Nikita.csproj|solutionrelative:activities.nikita\\activities.nikita.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TableFormatting.cs",
+              "DocumentMoniker": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\Activities.Nikita\\TableFormatting.cs",
+              "RelativeDocumentMoniker": "Activities.Nikita\\TableFormatting.cs",
+              "ToolTip": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\Activities.Nikita\\TableFormatting.cs",
+              "RelativeToolTip": "Activities.Nikita\\TableFormatting.cs",
+              "ViewState": "AQIAAFIAAAAAAAAAAAAcwDAAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-26T13:57:20.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Activities.Nikita",
+              "DocumentMoniker": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\Activities.Nikita\\Activities.Nikita.csproj",
+              "RelativeDocumentMoniker": "Activities.Nikita\\Activities.Nikita.csproj",
+              "ToolTip": "C:\\Users\\NIBugakov\\Documents\\GitHub\\Interop\\Activities.Nikita\\Activities.Nikita.csproj",
+              "RelativeToolTip": "Activities.Nikita\\Activities.Nikita.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACUAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-03-26T13:56:52.838Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
