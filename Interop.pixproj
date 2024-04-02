@@ -17,23 +17,23 @@
     </ProjectFileItem>
     <ProjectFileItem z:Id="i5">
       <IsMain>false</IsMain>
-      <Path>Dependencies\Activities.Nikita.dll</Path>
+      <Path>Dependencies\Activities.Igorevich.dll</Path>
     </ProjectFileItem>
     <ProjectFileItem z:Id="i6">
       <IsMain>false</IsMain>
-      <Path>Dependencies\Activities.Igorevich.dll</Path>
+      <Path>Tasks\Task3.pix</Path>
     </ProjectFileItem>
     <ProjectFileItem z:Id="i7">
       <IsMain>false</IsMain>
-      <Path>Tasks\Task3.pix</Path>
+      <Path>Tasks\Task1.pix</Path>
     </ProjectFileItem>
     <ProjectFileItem z:Id="i8">
       <IsMain>false</IsMain>
-      <Path>Tasks\Task1.pix</Path>
+      <Path>Tasks\Task2.pix</Path>
     </ProjectFileItem>
     <ProjectFileItem z:Id="i9">
       <IsMain>false</IsMain>
-      <Path>Tasks\Task2.pix</Path>
+      <Path>Dependencies\Activities.Nikita.dll</Path>
     </ProjectFileItem>
   </Files>
   <MasterUploadId i:nil="true" />

@@ -5,39 +5,21 @@
   <Id>556a663e-9ad0-4bff-9010-dca31722b269</Id>
   <Logic z:Id="i2" i:type="ExecutedStep">
     <Childs>
-      <AbstractStep z:Id="i3" i:type="ExecutedStep">
+      <AbstractStep z:Id="i3" i:type="CommentStep">
         <Childs />
-        <Id>7d6fc713-3875-4a1c-89d7-df788db1193d</Id>
+        <Id>eaea1577-3cf2-42f1-919a-79bfd378d7be</Id>
         <Parent z:Ref="i2" />
-        <PropertyValues>
-          <PropertyValue z:Id="i4">
-            <PropertyName>Value</PropertyName>
-            <_dataType>Expression</_dataType>
-            <_expression>"Имя"</_expression>
-            <_value i:nil="true" />
-            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
-          </PropertyValue>
-          <PropertyValue z:Id="i5">
-            <PropertyName>To</PropertyName>
-            <_dataType>Expression</_dataType>
-            <_expression>str_targetHeadName</_expression>
-            <_value i:nil="true" />
-            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
-          </PropertyValue>
-        </PropertyValues>
+        <PropertyValues />
         <SelectedOptionId i:nil="true" />
-        <EnableStatus>true</EnableStatus>
-        <ExceptionHandlingMode>Default</ExceptionHandlingMode>
-        <RetryCount>-1</RetryCount>
-        <Text></Text>
-        <_activityFullName>BR.Core.Base.Assign</_activityFullName>
+        <Text>Описание скрипта:
+Это шаблонный скрипт ,который соответвует второй созданной активности и отвечает за  создание копии исходного листа excel ,привидение к определенному шаблону</Text>
       </AbstractStep>
-      <AbstractStep z:Id="i6" i:type="ExecutedStep">
+      <AbstractStep z:Id="i4" i:type="ExecutedStep">
         <Childs />
         <Id>e2ab63b9-824e-440f-be76-bd43b77aef29</Id>
         <Parent z:Ref="i2" />
         <PropertyValues>
-          <PropertyValue z:Id="i7">
+          <PropertyValue z:Id="i5">
             <PropertyName>CSCode</PropertyName>
             <_dataType>Value</_dataType>
             <_expression i:nil="true" />
@@ -63,7 +45,7 @@ sheetToCopy.Columns.AutoFit();
 Microsoft.Office.Interop.Excel.Range searchRange = worksheet.UsedRange;
 foreach (Microsoft.Office.Interop.Excel.Range cell in searchRange)
 {
-    if (cell.Value2 != null &amp;&amp; (cell.Value2.ToString().Contains(str_targetHeadName)))
+    if (cell.Value2 != null &amp;&amp; (cell.Value2.ToString().Contains(in_str_targetHeadName)))
     {
         // Ячейка найдена
         cellFirst = cell;
@@ -113,7 +95,7 @@ Microsoft.Office.Interop.Excel.Range lastCell = sheetToCopy.Cells.SpecialCells(M
 lastCell = (Microsoft.Office.Interop.Excel.Range)sheetToCopy.Cells[(lastCell.Row-shiftСounter + 1),(lastCell.Column)];
 //формула суммирования в последней ячейке
 String cellLetter = System.Text.RegularExpressions.Regex.Match(lastCell.Address.ToString(),@"[a-zA-Z]+").ToString();
-lastCell.Formula = $"=СУММ({cellLetter}1:{cellLetter}{lastCell.Row-1}";
+lastCell.FormulaLocal = $"=СУММ({cellLetter}{cellFirst.Row+1}:{cellLetter}{lastCell.Row-1}";
 //Выделение ячейки жирным шрифтом
 lastCell.Font.Bold = true;
 Microsoft.Office.Interop.Excel.Range cellBeforeAmount = (Microsoft.Office.Interop.Excel.Range)sheetToCopy.Cells[(lastCell.Row),(lastCell.Column-1)];
@@ -132,7 +114,7 @@ workbook.Close();
 excelApp.Quit();</_value>
             <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
           </PropertyValue>
-          <PropertyValue z:Id="i8">
+          <PropertyValue z:Id="i6">
             <PropertyName>Timeout</PropertyName>
             <_dataType>Value</_dataType>
             <_expression i:nil="true" />
@@ -144,35 +126,8 @@ excelApp.Quit();</_value>
         <EnableStatus>true</EnableStatus>
         <ExceptionHandlingMode>Default</ExceptionHandlingMode>
         <RetryCount>-1</RetryCount>
-        <Text></Text>
+        <Text>(Выполнить) </Text>
         <_activityFullName>BR.Core.Base.ExecuteCSCode</_activityFullName>
-      </AbstractStep>
-      <AbstractStep z:Id="i9" i:type="ExecutedStep">
-        <Childs />
-        <Id>246e37b0-aa3f-420c-bb64-6d07c72610b4</Id>
-        <Parent z:Ref="i2" />
-        <PropertyValues>
-          <PropertyValue z:Id="i10">
-            <PropertyName>Value</PropertyName>
-            <_dataType>Value</_dataType>
-            <_expression></_expression>
-            <_value i:nil="true" />
-            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
-          </PropertyValue>
-          <PropertyValue z:Id="i11">
-            <PropertyName>To</PropertyName>
-            <_dataType>Expression</_dataType>
-            <_expression></_expression>
-            <_value i:nil="true" />
-            <_xpathSettings xmlns:d7p1="http://schemas.datacontract.org/2004/07/BR.XPath" i:nil="true" />
-          </PropertyValue>
-        </PropertyValues>
-        <SelectedOptionId i:nil="true" />
-        <EnableStatus>true</EnableStatus>
-        <ExceptionHandlingMode>Default</ExceptionHandlingMode>
-        <RetryCount>-1</RetryCount>
-        <Text></Text>
-        <_activityFullName>BR.Core.Base.Assign</_activityFullName>
       </AbstractStep>
     </Childs>
     <Id>f8f33b19-eec7-4755-89a8-06fd9fe7cb3f</Id>
@@ -188,25 +143,25 @@ excelApp.Quit();</_value>
   <Name>Task2.pix</Name>
   <Namespaces xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <Params>
-    <Parameter z:Id="i12">
+    <Parameter z:Id="i7">
       <DefaultValueExpression></DefaultValueExpression>
       <Description></Description>
       <Name>in_str_pathToExcel</Name>
       <TypeString>System.String</TypeString>
     </Parameter>
-    <Parameter z:Id="i13">
+    <Parameter z:Id="i8">
       <DefaultValueExpression></DefaultValueExpression>
       <Description></Description>
       <Name>in_str_listName</Name>
       <TypeString>System.String</TypeString>
     </Parameter>
-    <Parameter z:Id="i14">
-      <DefaultValueExpression></DefaultValueExpression>
+    <Parameter z:Id="i9">
+      <DefaultValueExpression>"Имя"</DefaultValueExpression>
       <Description></Description>
       <Name>in_str_targetHeadName</Name>
       <TypeString>System.String</TypeString>
     </Parameter>
-    <Parameter z:Id="i15">
+    <Parameter z:Id="i10">
       <DefaultValueExpression></DefaultValueExpression>
       <Description></Description>
       <Name>in_newListName</Name>
